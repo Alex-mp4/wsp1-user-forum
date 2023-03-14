@@ -1,0 +1,121 @@
+@use "reset";
+
+// Variable overrides first
+$primary: #900;
+$enable-shadows: true;
+$prefix: "mo-";
+
+// Then import Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+    background-color: rgb(219, 219, 219);
+}
+
+body:hover {
+    //transform: rotate(360deg);
+    //transition: all 0.3s ease-in-out 0s;
+}
+
+main {
+    width: min(80ch, 100vw - 2rem);
+    margin-inline: auto;
+    overflow-x: hidden;
+}
+
+.display {
+    display: flex;
+}
+
+.posts {
+    width: min(80ch, 100vw - 10rem);
+    margin-inline: auto;
+    background-color: rgb(41, 41, 41);
+    color: rgb(228, 228, 228);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.posts:hover {
+    transform: rotate(360deg);
+    transition: all 0.3s ease-in-out 0s;
+}
+
+img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+p {
+    margin-bottom: 1rem;
+    display: flex;
+}
+
+a {
+    color: #008094;
+}
+
+input {
+    width: 49.6%;
+}
+
+.title {
+    margin-left: 39.7%;
+}
+
+select {
+    width: 49.6%;
+}
+
+textarea {
+    width: 100%;
+}
+
+input:hover {
+    //transform: rotate(360deg);
+    //transition: all 0.3s ease-in-out 0s;
+}
+
+.title:hover {
+    //transform: rotate(360deg);
+    //transition: all 0.3s ease-in-out 0s;
+}
+
+select:hover {
+    //transform: rotate(360deg);
+    //transition: all 0.3s ease-in-out 0s;
+}
+
+textarea:hover {
+    //transform: rotate(360deg);
+    //transition: all 0.3s ease-in-out 0s;
+}
+
+button:hover {
+    //transform: rotate(360deg);
+    //transition: all 0.3s ease-in-out 0s;
+}
+
+.hr {
+    margin-top: 5rem;
+}
+
+footer {
+    width: min(100ch, 100vw - 2rem);
+    margin-inline: auto;
+}
+
+.nav-link:hover {
+    color: white;
+}

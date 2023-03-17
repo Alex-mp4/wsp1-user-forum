@@ -5,9 +5,7 @@
     <label for="title" class="title">Titel</label>
     <br>
     <select name="author" id="author">
-        {% for user in users %}
-            <option value="{{ user.name }}">{{ user.name }}</option>
-        {% endfor %}
+    <option value="{{ user.name }}">{{ user.name }}</option>
     </select>
     <input type="text" name="title" id="title">
     <br>

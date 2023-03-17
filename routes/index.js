@@ -40,7 +40,7 @@ router.post('/new', async function (req, res, next) {
 
     // user.insertId bör innehålla det nya ID:t för författaren
     console.log(user)
-    const userId = user.insertId || user[0][0].id;
+    const userId = user.insertId || user[0].id;
 
     // kör frågan för att skapa ett nytt inlägg
     const [rows] = await promisePool.query('INSERT INTO adh31forum (authorId, title, content) VALUES (?, ?, ?)', [userId, title, content]);
@@ -56,7 +56,7 @@ router.get('/new', async function (req, res, next) {
         });
     }
     else {
-        return res.status(401).send('Access denied')
+        res.redirect('/accessdenied')
     }
     
 });
@@ -75,7 +75,7 @@ router.get('/profile', async function (req, res, next) {
         res.render('profile.njk', { title: 'Profile', name: req.session.username })
     }
     else {
-        return res.status(401).send('Access denied')
+        res.redirect('/accessdenied')
     }
 
 });
@@ -196,4 +196,10 @@ router.post('/delete', async function (req, res, next) {
         req.session.login = 0
         res.redirect('/')
     }
+});
+
+router.get('/accessdenied', async function (req, res, next) {
+
+    res.render('accessdenied.njk', { title: 'Access Denied' });
+
 });

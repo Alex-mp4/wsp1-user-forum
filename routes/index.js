@@ -78,7 +78,7 @@ router.get('/login', async function (req, res, next) {
 router.get('/profile', async function (req, res, next) {
 
 
-    if (req.session.login == 1) {
+    if (req.session.login > 0) {
         const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.session.userid]);
         res.render('profile.njk', { title: 'Profile', name: req.session.username, rows: rows })
     }
@@ -95,8 +95,8 @@ router.post('/profile', async function (req, res, next) {
 });
 
 router.get('/user/:id', async function (req, res, next) {
-    const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.session.userid]);
-    res.render('user.njk', {title: 'User', rows: rows});
+    const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.params.id]);
+    res.render('user.njk', {title: 'User', rows: rows, name: req.params.name});
 });
 
 router.post('/user/:id', async function (req, res, next) {

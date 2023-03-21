@@ -4,7 +4,21 @@
     <h1>{{ title }}</h1>
     <p>Username: {{ name }}</p>
         <button type="submit"><a href="/logout">Logout</a></button>
-        <button type="submit"><a href="/">Home</a></button>
         <button type="submit"><a href="/delete">Delete User</a></button>
+        <br>
+        <br>
+        {% for row in rows %}
+            <a href="/post/{{ row.id }}">
+                <div class="posts text-bg-dark">
+                <div class="display">
+                    <img src="img/lostsummer.jpg">
+                    <p value="{{ row.authorId }}">{{ row.name }}</p>
+                </div>
+                    <h1>{{ row.title }}</h1>
+                    <h3>{{ row.content }}</h3>
+                </div>
+            </a>
+            <p>Posted at {{ row.createdAt }}</p>
+        {% endfor %}
 </main>
 {% endblock %}

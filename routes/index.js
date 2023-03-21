@@ -30,20 +30,28 @@ router.get('/post/:id', async function (req, res, next) {
 });
 
 router.post('/new', async function (req, res, next) {
-    const { author, title, content } = req.body;
+    const { title, content } = req.body;
+    
 
     // Skapa en ny författare om den inte finns men du behöver kontrollera om användare finns!
-    let user = await promisePool.query('SELECT * FROM adh31users WHERE name = ?', [author]);
+    let user = await promisePool.query('SELECT * FROM adh31users WHERE name = ?', [req.session.username]);
     if (!user) {
-        user = await promisePool.query('INSERT INTO adh31users (name) VALUES (?)', [author]);
+        user = await promisePool.query('INSERT INTO adh31users (name) VALUES (?)', [req.session.username]);
     }
 
     // user.insertId bör innehålla det nya ID:t för författaren
-    console.log(user)
+    
     const userId = user.insertId || user[0].id;
+    
+    let authorNameId = await promisePool.query('SELECT id FROM adh31users WHERE name = ?', [req.session.username]);
+
+    //console.log(authorNameId[0][0].id)
+    //console.log(req.session.username)
+    //console.log(user)
+    //console.log(user[0].id)
 
     // kör frågan för att skapa ett nytt inlägg
-    const [rows] = await promisePool.query('INSERT INTO adh31forum (authorId, title, content) VALUES (?, ?, ?)', [userId, title, content]);
+    const [rows] = await promisePool.query('INSERT INTO adh31forum (authorId, title, content) VALUES (?, ?, ?)', [authorNameId[0][0].id, title, content]);
     res.redirect('/'); // den här raden kan vara bra att kommentera ut för felsökning, du kan då använda tex. res.json({rows}) för att se vad som skickas tillbaka från databasen
 });
 

@@ -14,7 +14,7 @@ const promisePool = pool.promise();
 module.exports = router;
 
 router.get('/', async function (req, res, next) {
-    const [rows] = await promisePool.query("SELECT * FROM adh31forum JOIN adh31users ON adh31forum.authorId = adh31users.id ORDER BY createdAt DESC");
+    const [rows] = await promisePool.query("SELECT adh31forum.*, adh31users.name FROM adh31forum JOIN adh31users WHERE adh31forum.authorId = adh31users.id ORDER BY createdAt DESC");
     res.render('index.njk', {
         rows: rows,
         title: 'Forum',

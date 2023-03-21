@@ -17,3 +17,9 @@ Nästa gång: Jag behöver fixa att author är den som är inloggad. Dessutom sk
 VGJS?: Sist så blandade jag ihop forumet med allt vi skapade på ALC projektet.
 VSJGI?: Jag vill fixa att authorn som är inloggad automatiskt blir authorn när de gör en post under session. Om jag hinner skulle det vara trevligt om man tar sig till rätt post när den blir klickad.
 VHMF...: Jadu, inte så mycket egentligen. Dock måste jag hitta ett sätt så att authorId blir det som skickas vidare till posten.
+
+1. Authorn är den som är inloggad
+2. Man tar sig till rätt post vid klick
+3. Ifall man klickar på en user får man endast deras posts
+
+Nästa gång: Fixa så att man kan se username för users

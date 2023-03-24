@@ -26,5 +26,5 @@ Nästa gång: Fixa så att man kan se username för users
 
 ## 2023-03-24 (Fredag)
 VGJS?: Nu skapas posten utefter vem som är inloggad. Ifall man klickar på en post tar man sig till endast den specifika posten. Dessutom kan man ta sig in på andras profiler för att se deras post.
-VSJGI?: Tvätta data, skapa ytterliggare test, navbar ändrar ifall användaren är inloggad
+VSJGI?: Tvätta data, skapa ytterliggare test, navbar ändrar ifall användaren är inloggad, användarnamn i profiler
 VHMF...: Ingenting just nu. Jag vet mer eller mindre vad som pågår.

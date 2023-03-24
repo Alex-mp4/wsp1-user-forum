@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const mysql = require('mysql2');
+var validator = require('validator');
+const { response } = require('express');
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -78,6 +80,37 @@ router.get('/new', async function (req, res, next) {
     }
     
 });
+
+router.post('/new', async function (req, res, next) {
+    const { title, content } = req.body;
+
+    if (!title) {
+        response.errors.push('Title is required');
+    }
+    if (!content) {
+        response.errors.push('Content is required');
+    }
+    if (title && title.length <= 3) {
+        response.errors.push('Title must be at least 3 characters');
+    }
+    if (body && body.length <= 10) {
+        response.errors.push('Content must be at least 10 characters');
+    }
+
+    if (response.errors.length === 0) {
+        // sanitize title och body, tvätta datan
+        const sanitize = (str) => {
+            let temp = str.trim();
+            temp = validator.stripLow(temp);
+            temp = validator.escape(temp);
+            return temp;
+        }
+        if (title) sanitizedTitle = sanitize(title);
+        if (content) sanitizedBody = sanitize(content);
+    }
+    
+});
+
 
 router.get('/login', async function (req, res, next) {
     // const [user] = await promisePool.query('SELECT * FROM dbusers');

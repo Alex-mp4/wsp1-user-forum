@@ -23,3 +23,8 @@ VHMF...: Jadu, inte så mycket egentligen. Dock måste jag hitta ett sätt så a
 3. Ifall man klickar på en user får man endast deras posts
 
 Nästa gång: Fixa så att man kan se username för users
+
+## 2023-03-24 (Fredag)
+VGJS?: Nu skapas posten utefter vem som är inloggad. Ifall man klickar på en post tar man sig till endast den specifika posten. Dessutom kan man ta sig in på andras profiler för att se deras post.
+VSJGI?: Tvätta data, skapa ytterliggare test, navbar ändrar ifall användaren är inloggad
+VHMF...: Ingenting just nu. Jag vet mer eller mindre vad som pågår.

@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const nunjucks = require('nunjucks');
+var validator = require('validator');
 
 const indexRouter = require('./routes/index');
 

@@ -97,6 +97,10 @@ router.post('/new', async function (req, res, next) {
         response.errors.push('Content must be at least 10 characters');
     }
 
+    if (response.errors.length > 0) {
+        //kill
+    }
+
     if (response.errors.length === 0) {
         // sanitize title och body, tvätta datan
         const sanitize = (str) => {
@@ -142,7 +146,13 @@ router.post('/profile', async function (req, res, next) {
 
 router.get('/user/:id', async function (req, res, next) {
     const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.params.id]);
-    res.render('user.njk', {title: 'User', rows: rows, name: req.params.name, login: req.session.login || false });
+    console.log(req.params.name) //undefined
+        res.render('user.njk', {
+        title: 'User',
+        rows: rows,
+        name: req.params.name,
+        login: req.session.login || false
+    });
 });
 
 router.post('/user/:id', async function (req, res, next) {

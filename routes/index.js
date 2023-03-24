@@ -18,6 +18,14 @@ router.get('/', async function (req, res, next) {
     res.render('index.njk', {
         rows: rows,
         title: 'Forum',
+        login: req.session.login || false
+    });
+});
+
+router.get('/navigation', async function (req, res, next) {
+    res.render('navigation.njk', {
+        title: 'Nav',
+        login: req.session.login || false
     });
 });
 
@@ -26,6 +34,7 @@ router.get('/post/:id', async function (req, res, next) {
     res.render('post.njk', {
         post: rows[0],
         title: 'Forum',
+        login: req.session.login || false
     });
 });
 
@@ -57,10 +66,11 @@ router.post('/new', async function (req, res, next) {
 
 router.get('/new', async function (req, res, next) {
     const [users] = await promisePool.query("SELECT * FROM adh31users");
-    if (req.session.login == 1) {
+    if (req.session.login == true) {
         res.render('new.njk', {
             title: 'Nytt inlägg',
             users,
+            login: req.session.login || false
         });
     }
     else {
@@ -72,15 +82,18 @@ router.get('/new', async function (req, res, next) {
 router.get('/login', async function (req, res, next) {
     // const [user] = await promisePool.query('SELECT * FROM dbusers');
 
-    res.render('login.njk', { title: 'Log' });
+    res.render('login.njk', { 
+        title: 'Log',
+        login: req.session.login || false
+    });
 });
 
 router.get('/profile', async function (req, res, next) {
 
 
-    if (req.session.login > 0) {
+    if (req.session.login = true) {
         const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.session.userid]);
-        res.render('profile.njk', { title: 'Profile', name: req.session.username, rows: rows })
+        res.render('profile.njk', { title: 'Profile', name: req.session.username, rows: rows, login: req.session.login || false })
     }
     else {
         res.redirect('/accessdenied')
@@ -96,7 +109,7 @@ router.post('/profile', async function (req, res, next) {
 
 router.get('/user/:id', async function (req, res, next) {
     const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.params.id]);
-    res.render('user.njk', {title: 'User', rows: rows, name: req.params.name});
+    res.render('user.njk', {title: 'User', rows: rows, name: req.params.name, login: req.session.login || false });
 });
 
 router.post('/user/:id', async function (req, res, next) {
@@ -105,8 +118,8 @@ router.post('/user/:id', async function (req, res, next) {
 
 router.get('/logout', async function (req, res, next) {
 
-    res.render('logout.njk', { title: 'Logout' });
-    req.session.login = 0;
+    res.render('logout.njk', { title: 'Logout', login: req.session.login || false });
+    req.session.login = false;
 });
 
 router.post('/logout', async function (req, res, next) {
@@ -142,7 +155,7 @@ router.post('/login', async function (req, res, next) {
         if (result === true) {
             // return res.send('Welcome')
             req.session.username = username;
-            req.session.login = 1;
+            req.session.login = true;
             req.session.userid = users[0].id;
             return res.redirect('/profile');
         }
@@ -166,7 +179,7 @@ router.get('/crypt/:password', async function (req, res, next) {
 });
 
 router.get('/register', function (req, res, next) {
-    res.render('register.njk', { title: 'register' });
+    res.render('register.njk', { title: 'register', login: req.session.login || false });
 
 });
 
@@ -204,21 +217,21 @@ router.post('/register', async function (req, res, next) {
 
 router.get('/delete', async function (req, res, next) {
 
-    res.render('delete.njk', { title: 'Delete' });
+    res.render('delete.njk', { title: 'Delete', login: req.session.login || false });
 
 });
 
 router.post('/delete', async function (req, res, next) {
     const { password } = req.body;
-    if (req.session.login === 1) {
+    if (req.session.login === true) {
         const [Delet] = await promisePool.query('DELETE FROM adh31users WHERE password = ?', [password]);
-        req.session.login = 0
+        req.session.login = false
         res.redirect('/')
     }
 });
 
 router.get('/accessdenied', async function (req, res, next) {
 
-    res.render('accessdenied.njk', { title: 'Access Denied' });
+    res.render('accessdenied.njk', { title: 'Access Denied', login: req.session.login || false });
 
 });

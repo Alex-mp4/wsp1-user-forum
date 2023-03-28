@@ -34,3 +34,8 @@ VHMF...: Ingenting just nu. Jag vet mer eller mindre vad som pågår.
 3. Init. av användarnamn i profiler
 
 Nästa gång: Fixa 2+3, kommentar system och ytterliggare test
+
+## 2023-03-28 (Tisdag)
+VGJS?: Navbar ändras beroende på om man är inloggad eller inte, jag implementerade tvätta data kod
+VSJGI?: Jag vill verkligen fixa att man kan se användarnamnet i någons profil!!
+VHMF...: Jag måste bara hitta rätt variabel att skicka vidare.

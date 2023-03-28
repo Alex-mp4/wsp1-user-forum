@@ -66,6 +66,44 @@ router.post('/new', async function (req, res, next) {
     res.redirect('/'); // den här raden kan vara bra att kommentera ut för felsökning, du kan då använda tex. res.json({rows}) för att se vad som skickas tillbaka från databasen
 });
 
+router.post('/new', async function (req, res, next) {
+    const { title, content } = req.body;
+    const response = {
+        errors:[],
+    };
+    if (req.session.login == 1) {
+        if (!title) response.errors.push('Title is required');
+        if (!content)  response.errors.push('Content is required');
+        if (title && title.length <= 3)
+        response.errors.push('Title must be at least 3 characters');
+        if (content && content.length <= 10)
+        response.errors.push('Content must be at least 10 characters');
+
+
+        if (response.errors.length === 0) {
+            console.log(response.errors)
+            // sanitize title och body, tvätta datan
+            const sanitize = (str) => {
+                let temp = str.trim();
+                temp = validator.stripLow(temp);
+                temp = validator.escape(temp);
+                return temp;
+            };
+            if (title) sanitizedTitle = sanitize(title);
+            if (content) sanitizedContent = sanitize(content);
+
+
+        const [rows] = await promisePool.query('INSERT INTO adh31forum (authorId, title, content) VALUES (?, ?, ?)',
+        [req.session.userId, sanitizedTitle, sanitizedContent]);
+        res.redirect('/forum');
+        }
+    }
+    else
+    {
+        return res.redirect('/accessdenied')
+    }
+});
+
 router.get('/new', async function (req, res, next) {
     const [users] = await promisePool.query("SELECT * FROM adh31users");
     if (req.session.login == true) {
@@ -81,41 +119,6 @@ router.get('/new', async function (req, res, next) {
     
 });
 
-router.post('/new', async function (req, res, next) {
-    const { title, content } = req.body;
-
-    if (!title) {
-        response.errors.push('Title is required');
-    }
-    if (!content) {
-        response.errors.push('Content is required');
-    }
-    if (title && title.length <= 3) {
-        response.errors.push('Title must be at least 3 characters');
-    }
-    if (body && body.length <= 10) {
-        response.errors.push('Content must be at least 10 characters');
-    }
-
-    if (response.errors.length > 0) {
-        //kill
-    }
-
-    if (response.errors.length === 0) {
-        // sanitize title och body, tvätta datan
-        const sanitize = (str) => {
-            let temp = str.trim();
-            temp = validator.stripLow(temp);
-            temp = validator.escape(temp);
-            return temp;
-        }
-        if (title) sanitizedTitle = sanitize(title);
-        if (content) sanitizedBody = sanitize(content);
-    }
-    
-});
-
-
 router.get('/login', async function (req, res, next) {
     // const [user] = await promisePool.query('SELECT * FROM dbusers');
 
@@ -130,7 +133,7 @@ router.get('/profile', async function (req, res, next) {
 
     if (req.session.login = true) {
         const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.session.userid]);
-        res.render('profile.njk', { title: 'Profile', name: req.session.username, rows: rows, fix: fix, login: req.session.login || false })
+        res.render('profile.njk', { title: 'Profile', name: req.session.username, rows: rows, login: req.session.login || false })
     }
     else {
         res.redirect('/accessdenied')
@@ -192,23 +195,27 @@ router.post('/login', async function (req, res, next) {
 
     const [user] = await promisePool.query('SELECT * FROM adh31users WHERE name = ?', [username]);
 
-
-    bcrypt.compare(password, user[0].password, function (err, result) {
-        //logga in eller nåt
-
-        if (result === true) {
-            // return res.send('Welcome')
-            req.session.username = username;
-            req.session.login = true;
-            req.session.userid = users[0].id;
-            return res.redirect('/profile');
-        }
-
-        else {
-            return res.send("Invalid username or password")
-        }
-
-    })
+    if (user.length > 0) {
+        bcrypt.compare(password, user[0].password, function (err, result) {
+            //logga in eller nåt
+    
+            if (result === true) {
+                // return res.send('Welcome')
+                req.session.username = username;
+                req.session.login = true;
+                req.session.userid = users[0].id;
+                return res.redirect('/profile');
+            }
+    
+            else {
+                return res.redirect('/login')
+            }
+    
+        })
+    } else {
+        return res.redirect('/login')
+    }
+    
 
 
 });

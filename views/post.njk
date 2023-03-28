@@ -5,8 +5,8 @@
                 <img src="../img/lostsummer.jpg">
                 <a href="/user/{{ post.authorId }}">{{ post.username }}</a>
             </div>
-            <h1>{{ post.title }}</h1>
-            <h3>{{ post.content }}</h3>
+            <h1>{{ post.title | urlize | safe }}</h1>
+            <h3>{{ post.content | urlize | safe }}</h3>
         </div>
     <p>Posted at {{ post.createdAt }}</p>
 {% endblock %}

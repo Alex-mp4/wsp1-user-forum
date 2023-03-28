@@ -39,3 +39,5 @@ Nästa gång: Fixa 2+3, kommentar system och ytterliggare test
 VGJS?: Navbar ändras beroende på om man är inloggad eller inte, jag implementerade tvätta data kod
 VSJGI?: Jag vill verkligen fixa att man kan se användarnamnet i någons profil!!
 VHMF...: Jag måste bara hitta rätt variabel att skicka vidare.
+
+1. Användarnamn är nu tillgängligt vart man än går

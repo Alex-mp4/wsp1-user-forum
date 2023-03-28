@@ -130,7 +130,7 @@ router.get('/profile', async function (req, res, next) {
 
     if (req.session.login = true) {
         const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.session.userid]);
-        res.render('profile.njk', { title: 'Profile', name: req.session.username, rows: rows, login: req.session.login || false })
+        res.render('profile.njk', { title: 'Profile', name: req.session.username, rows: rows, fix: fix, login: req.session.login || false })
     }
     else {
         res.redirect('/accessdenied')
@@ -146,11 +146,12 @@ router.post('/profile', async function (req, res, next) {
 
 router.get('/user/:id', async function (req, res, next) {
     const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.params.id]);
-    console.log(req.params.name) //undefined
+    const [name] = await promisePool.query("SELECT name FROM adh31users WHERE id = ?", [req.params.id]);
+    console.log(name[0]) //undefined
         res.render('user.njk', {
         title: 'User',
         rows: rows,
-        name: req.params.name,
+        name: name[0],
         login: req.session.login || false
     });
 });

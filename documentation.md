@@ -42,5 +42,4 @@ VHMF...: Jag måste bara hitta rätt variabel att skicka vidare.
 
 1. Användarnamn är nu tillgängligt vart man än går
 2. Sanitized
-
-Nästa gång: Min validator är helt paj även om jag kopierade kod från både Loke och Tim (den sanitizar kod dock)
+3. Error för posts

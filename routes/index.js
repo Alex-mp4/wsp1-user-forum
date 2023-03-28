@@ -41,67 +41,44 @@ router.get('/post/:id', async function (req, res, next) {
 });
 
 router.post('/new', async function (req, res, next) {
-    const { title, content } = req.body;
-    
+    const {title, content } = req.body;
+
+    const errors = [];
+
+    if (!title) errors.push('Title is required');
+    if (!content) errors.push('Content is required');
+    if (title && title.length <= 3)
+        errors.push('Title must be at least 3 characters');
+    if (content && content.length <= 10)
+        errors.push('Content must be at least 10 characters');
+
+    if (errors.length === 0) {
+        // sanitize title och body, tvätta datan
+        const sanitize = (str) => {
+            let temp = str.trim();
+            temp = validator.stripLow(temp);
+            temp = validator.escape(temp);
+            return temp;
+        };
+        if (title) sanitizedTitle = sanitize(title);
+        if (content) sanitizedContent = sanitize(content);
+    } else {
+        return res.json(errors);
+    }
 
     // Skapa en ny författare om den inte finns men du behöver kontrollera om användare finns!
-    let user = await promisePool.query('SELECT * FROM adh31users WHERE name = ?', [req.session.username]);
+    let [user] = await promisePool.query('SELECT * FROM adh31users WHERE id = ?', [req.session.userid]);
     if (!user) {
-        user = await promisePool.query('INSERT INTO adh31users (name) VALUES (?)', [req.session.username]);
+        user = await promisePool.query('INSERT INTO adh31users (name) VALUES (?)', [req.session.userid]);
     }
 
     // user.insertId bör innehålla det nya ID:t för författaren
-    
-    const userId = user.insertId || user[0].id;
-    
-    let authorNameId = await promisePool.query('SELECT id FROM adh31users WHERE name = ?', [req.session.username]);
 
-    //console.log(authorNameId[0][0].id)
-    //console.log(req.session.username)
-    //console.log(user)
-    //console.log(user[0].id)
+    const userId = user.insertId || user[0].id;
 
     // kör frågan för att skapa ett nytt inlägg
-    const [rows] = await promisePool.query('INSERT INTO adh31forum (authorId, title, content) VALUES (?, ?, ?)', [authorNameId[0][0].id, title, content]);
+    const [rows] = await promisePool.query('INSERT INTO adh31forum (authorId, title, content) VALUES (?, ?, ?)', [userId, sanitizedTitle, sanitizedContent]);
     res.redirect('/'); // den här raden kan vara bra att kommentera ut för felsökning, du kan då använda tex. res.json({rows}) för att se vad som skickas tillbaka från databasen
-});
-
-router.post('/new', async function (req, res, next) {
-    const { title, content } = req.body;
-    const response = {
-        errors:[],
-    };
-    if (req.session.login == 1) {
-        if (!title) response.errors.push('Title is required');
-        if (!content)  response.errors.push('Content is required');
-        if (title && title.length <= 3)
-        response.errors.push('Title must be at least 3 characters');
-        if (content && content.length <= 10)
-        response.errors.push('Content must be at least 10 characters');
-
-
-        if (response.errors.length === 0) {
-            console.log(response.errors)
-            // sanitize title och body, tvätta datan
-            const sanitize = (str) => {
-                let temp = str.trim();
-                temp = validator.stripLow(temp);
-                temp = validator.escape(temp);
-                return temp;
-            };
-            if (title) sanitizedTitle = sanitize(title);
-            if (content) sanitizedContent = sanitize(content);
-
-
-        const [rows] = await promisePool.query('INSERT INTO adh31forum (authorId, title, content) VALUES (?, ?, ?)',
-        [req.session.userId, sanitizedTitle, sanitizedContent]);
-        res.redirect('/forum');
-        }
-    }
-    else
-    {
-        return res.redirect('/accessdenied')
-    }
 });
 
 router.get('/new', async function (req, res, next) {

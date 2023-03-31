@@ -2,7 +2,7 @@
 {% block  content %}
         <div class="posts text-bg-dark">
             <div class="display">
-                <img src="../img/lostsummer.jpg">
+                <img src={{ post.picture }}>
                 <a href="/user/{{ post.authorId }}">{{ post.username }}</a>
             </div>
             <h1>{{ post.title | urlize | safe }}</h1>

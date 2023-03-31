@@ -32,7 +32,8 @@ router.get('/navigation', async function (req, res, next) {
 });
 
 router.get('/post/:id', async function (req, res, next) {
-    const [rows] = await promisePool.query("SELECT adh31forum.*, adh31users.name AS username FROM adh31forum JOIN adh31users ON adh31forum.authorId = adh31users.id WHERE adh31forum.id = ?;", [req.params.id]);
+    const [rows] = await promisePool.query("SELECT adh31forum.*, adh31users.name AS username, adh31users.picture AS picture FROM adh31forum JOIN adh31users ON adh31forum.authorId = adh31users.id WHERE adh31forum.id = ?;", [req.params.id]);
+    console.log(rows)
     res.render('post.njk', {
         post: rows[0],
         title: 'Forum',
@@ -127,11 +128,13 @@ router.post('/profile', async function (req, res, next) {
 router.get('/user/:id', async function (req, res, next) {
     const [rows] = await promisePool.query("SELECT * FROM adh31forum WHERE authorId = ?", [req.params.id]);
     const [name] = await promisePool.query("SELECT name FROM adh31users WHERE id = ?", [req.params.id]);
+    const [img] = await promisePool.query("SELECT picture FROM adh31users WHERE id = ?", [req.params.id]);
     console.log(name[0]) //undefined
         res.render('user.njk', {
         title: 'User',
         rows: rows,
         name: name[0],
+        img: img[0],
         login: req.session.login || false
     });
 });

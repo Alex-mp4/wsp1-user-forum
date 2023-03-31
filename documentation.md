@@ -48,3 +48,7 @@ VHMF...: Jag måste bara hitta rätt variabel att skicka vidare.
 VGJS?: Saker blir sanitizat samt finns det regler för posting, nu är användarnamn "globala" och syns överallt
 VSJGI?: Hosting och sedan vill jag försöka göra egna profilbilder
 VHMF...: Inget just nu.
+
+1. Profilbilder för post och user
+
+Nästa gång: Fixa profilbilder för forumet, bara en SQLQuery per router

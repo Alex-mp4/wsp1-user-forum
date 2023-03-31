@@ -51,4 +51,4 @@ VHMF...: Inget just nu.
 
 1. Profilbilder för post och user
 
-Nästa gång: Fixa profilbilder för forumet, bara en SQLQuery per router
+Nästa gång: Fixa profilbilder för forumet och egen profil, bara en SQLQuery per router

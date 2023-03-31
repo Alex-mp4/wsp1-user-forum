@@ -43,3 +43,8 @@ VHMF...: Jag måste bara hitta rätt variabel att skicka vidare.
 1. Användarnamn är nu tillgängligt vart man än går
 2. Sanitized
 3. Error för posts
+
+## 2023-03-31 (Fredag)
+VGJS?: Saker blir sanitizat samt finns det regler för posting, nu är användarnamn "globala" och syns överallt
+VSJGI?: Hosting och sedan vill jag försöka göra egna profilbilder
+VHMF...: Inget just nu.
